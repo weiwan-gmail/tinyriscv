@@ -1,42 +1,57 @@
-# compile_rtl.py
+# sim — 仿真脚本
 
-编译rtl代码。
+Linux 下请用 **python3**（本仓库脚本已改为 `#!/usr/bin/env python3`）。
 
-使用方法：
+默认 **不** 生成 VCD（加快仿真）。若要用 gtkwave 看波形：
 
-`python compile_rtl.py [rtl目录相对路径]`
+```bash
+DUMP_WAVE=1 python3 sim_new_nowave.py ../tests/example/simple/simple.bin inst.data
+gtkwave tinyriscv_soc_tb.vcd
+```
 
-比如：
+## compile_rtl.py
 
-`python compile_rtl.py ..`
+编译 RTL + testbench 为 `out.vvp`。
 
-# sim_new_nowave.py
+```bash
+python3 compile_rtl.py ..
+```
 
-对指定的bin文件(重新生成inst.data文件)进行测试。
+## sim_new_nowave.py
 
-使用方法：
+把 `.bin` 转成 `inst.data`，编译 RTL，用 iverilog/vvp 跑仿真。
 
-windows系统下：
+```bash
+# Linux
+python3 sim_new_nowave.py ../tests/example/simple/simple.bin inst.data
+python3 sim_new_nowave.py ../tests/isa/generated/rv32ui-p-add.bin inst.data
 
-`python sim_new_nowave.py ..\tests\isa\generated\rv32ui-p-add.bin inst.data`
+# Windows
+python sim_new_nowave.py ..\tests\example\simple\simple.bin inst.data
+```
 
-Linux系统下：
+成功时 stdout 会出现 `TEST_PASS`。
 
-`python sim_new_nowave.py ../tests/isa/generated/rv32ui-p-add.bin inst.data`
+## sim_default_nowave.py
 
-# sim_default_nowave.py
+对已经存在的 `inst.data` 做仿真（不重新转 bin）。
 
-对已经存在的inst.data文件进行测试。
+```bash
+python3 sim_default_nowave.py
+```
 
-使用方法：
+## test_all_isa.py
 
-`python sim_default_nowave.py`
+测试 `../tests/isa/generated` 下全部指令 `.bin`。
 
-# test_all_isa.py
+```bash
+python3 test_all_isa.py
+```
 
-一次性测试../tests/isa/generated目录下的所有指令。
+## Verilator（C++ harness）
 
-使用方法：
+见 [verilator/README.md](verilator/README.md) 与仓库根目录 [LEARNING.md](../LEARNING.md)。
 
-`python test_all_isa.py`
-
+```bash
+make -C verilator sim
+```

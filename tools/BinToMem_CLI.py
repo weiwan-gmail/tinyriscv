@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import sys
 import os
 
@@ -41,4 +42,4 @@ if __name__ == '__main__':
     if len(sys.argv) == 3:
         bin_to_mem(sys.argv[1], sys.argv[2])
     else:
-        print('Usage: %s binfile datafile' % sys.argv[0], sys.argv[1], sys.argv[2])
+        print('Usage: %s binfile datafile' % sys.argv[0])

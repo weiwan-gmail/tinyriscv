@@ -1,42 +1,46 @@
+#!/usr/bin/env python3
+"""Run every generated ISA .bin under iverilog."""
 import os
 import subprocess
 import sys
 
 
-# 找出path目录下的所有bin文件
 def list_binfiles(path):
     files = []
-    list_dir = os.walk(path)
-    for maindir, subdir, all_file in list_dir:
+    for maindir, _subdir, all_file in os.walk(path):
         for filename in all_file:
             apath = os.path.join(maindir, filename)
             if apath.endswith('.bin'):
                 files.append(apath)
-
     return files
 
-# 主函数
-def main():
-    bin_files = list_binfiles(r'../tests/isa/generated')
 
+def main():
+    here = os.path.dirname(os.path.abspath(__file__))
+    py = sys.executable
+    sim = os.path.join(here, 'sim_new_nowave.py')
+    bin_files = list_binfiles(os.path.join(here, '..', 'tests', 'isa', 'generated'))
     anyfail = False
 
-    # 对每一个bin文件进行测试
     for file in bin_files:
-        #print(file)
-        cmd = r'python sim_new_nowave.py' + ' ' + file + ' ' + 'inst.data'
-        f = os.popen(cmd)
-        r = f.read()
-        f.close()
-        if (r.find('TEST_PASS') != -1):
+        result = subprocess.run(
+            [py, sim, file, 'inst.data'],
+            cwd=here,
+            capture_output=True,
+            text=True,
+        )
+        text = (result.stdout or '') + (result.stderr or '')
+        if 'TEST_PASS' in text:
             print(file + '    PASS')
         else:
             print(file + '    !!!FAIL!!!')
+            print(text)
             anyfail = True
             break
 
-    if (anyfail == False):
+    if not anyfail:
         print('Congratulation, All PASS...')
+    return 1 if anyfail else 0
 
 
 if __name__ == '__main__':

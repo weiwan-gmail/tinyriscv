@@ -2,3 +2,13 @@
 *.o
 *.ko
 *.obj
+
+# Icarus / Verilator simulation artifacts
+sim/out.vvp
+sim/inst.data
+sim/*.vcd
+sim/signature.output
+sim/verilator/obj_dir/
+sim/verilator/inst.data
+sim/verilator/*.vcd
+sim/verilator/*.log

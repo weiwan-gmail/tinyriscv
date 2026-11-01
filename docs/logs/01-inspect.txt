@@ -1,0 +1,86 @@
+===== date / cwd / git =====
+Sun Nov  1 05:20:09 PM UTC 2026
+/workspace/sim
+cursor/verilator-cosim-tutorial-52df
+7cb8c8a sync from gitee
+
+===== repo map (depth 3, skip .git) =====
+/workspace
+/workspace/docs
+/workspace/docs/logs
+/workspace/fpga
+/workspace/fpga/constrs
+/workspace/fpga/images
+/workspace/pic
+/workspace/rtl
+/workspace/rtl/core
+/workspace/rtl/debug
+/workspace/rtl/perips
+/workspace/rtl/soc
+/workspace/rtl/utils
+/workspace/sim
+/workspace/sim/compliance_test
+/workspace/sim/verilator
+/workspace/tb
+/workspace/tb/compliance_test
+/workspace/tests
+/workspace/tests/example
+/workspace/tests/example/coremark
+/workspace/tests/example/FreeRTOS
+/workspace/tests/example/gpio
+/workspace/tests/example/include
+/workspace/tests/example/lib
+/workspace/tests/example/simple
+/workspace/tests/example/spi_master
+/workspace/tests/example/timer_int
+/workspace/tests/example/uart_rx
+/workspace/tests/example/uart_tx
+/workspace/tests/isa
+/workspace/tests/isa/generated
+/workspace/tests/isa/rv32ui
+/workspace/tests/isa/rv32um
+/workspace/tests/riscv-compliance
+/workspace/tests/riscv-compliance/build_generated
+/workspace/tests/riscv-compliance/doc
+/workspace/tests/riscv-compliance/riscv-target
+/workspace/tests/riscv-compliance/riscv-test-env
+/workspace/tests/riscv-compliance/riscv-test-suite
+/workspace/tests/riscv-compliance/spec
+/workspace/tools
+/workspace/tools/openocd
+
+===== how firmware boots (source quotes) =====
+-- CpuResetAddr --
+17:`define CpuResetAddr 32'h0
+19:`define RstEnable 1'b0
+149:`define RomNum 4096  // rom depth(how many words)
+-- start.S SIMULATION / x26 --
+13:#ifdef SIMULATION
+14:    li x26, 0x00
+15:    li x27, 0x00
+41:    call _init
+42:    call main
+44:#ifdef SIMULATION
+45:    li x26, 0x01
+-- SoC over/succ --
+13: See the License for the specific language governing permissions and     
+25:    output reg over,         // 测试是否完成信号
+26:    output reg succ,         // 测试是否成功信号
+144:            over <= 1'b1;
+145:            succ <= 1'b1;
+147:            over <= ~u_tinyriscv.u_regs.regs[26];  // when = 1, run over
+148:            succ <= ~u_tinyriscv.u_regs.regs[27];  // when = 1, run succ, otherwise fail
+-- TB wait x26 --
+20:    wire[`RegBus] x26 = tinyriscv_soc_top_0.u_tinyriscv.u_regs.regs[26];
+21:    wire[`RegBus] x27 = tinyriscv_soc_top_0.u_tinyriscv.u_regs.regs[27];
+54:        wait(x26 == 32'b1)   // wait sim end, when x26 == 1
+56:        if (x27 == 32'b1) begin
+57:            $display("~~~~~~~~~~~~~~~~~~~ TEST_PASS ~~~~~~~~~~~~~~~~~~~");
+498:        $readmemh ("inst.data", tinyriscv_soc_top_0.u_rom._rom);
+
+===== tool versions =====
+iverilog: Icarus Verilog version 12.0 (stable) ()
+Verilator 5.020 2024-01-01 rev (Debian 5.020-1)
+riscv64-unknown-elf-gcc (13.2.0-11ubuntu1+12) 13.2.0
+Python 3.12.3
+python3=/usr/bin/python3

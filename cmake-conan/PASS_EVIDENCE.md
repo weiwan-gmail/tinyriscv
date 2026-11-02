@@ -10,7 +10,7 @@ Recorded **2026-11-02** on this Cloud Agent Linux VM (`cursor`, Ubuntu 24.04, x8
 | Conan | **2.34.0** (`pip install --user conan==2.34.0`) — same major/minor as PC2023 |
 | RISC-V GCC | `riscv64-unknown-elf-gcc` 13.2.0 |
 
-Windows PC2023 (Conan 2.34 + withlimon `verilator_bin.exe`) is a follow-up: [`WINDOWS_PASS_EVIDENCE.md`](WINDOWS_PASS_EVIDENCE.md).
+Windows PC2023 (Conan **2.34.0** + withlimon `verilator_bin.exe` at `C:\msys64\mingw64\bin\verilator_bin.exe`, same tip **`4dd5b21`**) **PASS** — `build_sim.ps1` EXIT 0, ctest 3/3: [`WINDOWS_PASS_EVIDENCE.md`](WINDOWS_PASS_EVIDENCE.md).
 
 ## Configure
 

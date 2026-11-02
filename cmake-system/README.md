@@ -25,17 +25,17 @@ Unix 上 `PreferUnixGcc.cmake` 在 `project()` 前优先选 `g++`/`gcc`。
 
 Linux VM evidence: [`PASS_EVIDENCE.md`](PASS_EVIDENCE.md).
 
-## Windows (PC2023)
+## Windows (PC2023 PASS)
 
-[withlimon/verilator-windows](https://github.com/withlimon/verilator-windows) + **`verilator_bin.exe`**. Never the extensionless Perl `verilator`.
+[withlimon/verilator-windows](https://github.com/withlimon/verilator-windows) + **`verilator_bin.exe`**. Never the extensionless Perl `verilator`. PC2023: MSYS2 PE `C:\msys64\mingw64\bin\verilator_bin.exe`, `develop` **`4dd5b21`**, **PASS**.
 
 ```powershell
 cd cmake-system
 .\build_sim.ps1
 ```
 
-Copy-paste notes: [`WINDOWS.md`](WINDOWS.md). PC2023 proof is a follow-up: [`WINDOWS_PASS_EVIDENCE.md`](WINDOWS_PASS_EVIDENCE.md).
+Copy-paste notes: [`WINDOWS.md`](WINDOWS.md). Evidence: [`WINDOWS_PASS_EVIDENCE.md`](WINDOWS_PASS_EVIDENCE.md).
 
 ## Firmware without RISC-V GCC
 
-CMake still **verilates and links** the SoC model. Smoke `inst.data` then comes from `tests/isa/generated/rv32ui-p-add.bin` (committed). Preferred image is `tests/example/simple` when `riscv64-unknown-elf-gcc` (or xpack) is on PATH — same as [`../LEARNING.md`](../LEARNING.md).
+CMake still **verilates and links** the SoC model. Smoke `inst.data` then comes from `tests/isa/generated/rv32ui-p-add.bin` (committed; CMake **WARNING**, not a fail — PC2023 cmake-conan path). Preferred image is `tests/example/simple` when `riscv64-unknown-elf-gcc` (or xpack) is on PATH — same as [`../LEARNING.md`](../LEARNING.md).

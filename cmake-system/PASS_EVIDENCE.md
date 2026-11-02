@@ -10,7 +10,7 @@ Recorded **2026-11-02** on this Cloud Agent Linux VM (`cursor`, Ubuntu 24.04, x8
 | RISC-V GCC | `riscv64-unknown-elf-gcc` 13.2.0 |
 | Conan | not used in this tree |
 
-Windows PC2023 (withlimon `verilator_bin.exe`, worker `D:\CursorWorker`) is a follow-up: [`WINDOWS_PASS_EVIDENCE.md`](WINDOWS_PASS_EVIDENCE.md). PE / MSVC notes: [`WINDOWS.md`](WINDOWS.md).
+Windows PC2023 (withlimon `verilator_bin.exe` under MSYS2 MinGW64, worker `D:\CursorWorker`, same tip **`4dd5b21`**) **PASS**: [`WINDOWS_PASS_EVIDENCE.md`](WINDOWS_PASS_EVIDENCE.md). PE / MSVC notes: [`WINDOWS.md`](WINDOWS.md).
 
 ## Make paths still green
 

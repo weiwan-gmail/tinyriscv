@@ -54,15 +54,24 @@ cmake --build build-conan --target sim
 |-----------|--------------------|
 | RISC-V GCC + GNU make on PATH | `make -C tests/example/simple` → `simple.bin` (same as LEARNING.md) |
 | `simple.bin` already built | use it |
-| no toolchain | committed `tests/isa/generated/rv32ui-p-add.bin` (still `TEST_PASS`) |
+| no toolchain | committed `tests/isa/generated/rv32ui-p-add.bin` (CMake **WARNING**, still `TEST_PASS`) |
 
 The Verilator **model still compiles** if the RISC-V toolchain is missing. Install `gcc-riscv64-unknown-elf` (or xpack `riscv-none-elf-gcc`) to match the Make smoke exactly.
 
 `$readmemh("inst.data")` is unchanged; CMake generates `inst.data` in the build directory and runs the TB there.
 
-## Windows (PC2023 follow-up)
+## Windows (PC2023 PASS)
 
-Use [withlimon/verilator-windows](https://github.com/withlimon/verilator-windows) **`verilator_bin.exe`** (PE / MZ). Never the extensionless Perl `verilator`. Copy-paste: [`cmake-system/WINDOWS.md`](cmake-system/WINDOWS.md). Proof on this Linux VM: [`cmake-system/PASS_EVIDENCE.md`](cmake-system/PASS_EVIDENCE.md). PC2023 re-run is a follow-up.
+Use [withlimon/verilator-windows](https://github.com/withlimon/verilator-windows) **`verilator_bin.exe`** (PE / MZ). Never the extensionless Perl `verilator`. Copy-paste: [`cmake-system/WINDOWS.md`](cmake-system/WINDOWS.md).
+
+Both trees **PASS** on worker PC2023 at `develop` **`4dd5b21`**, engine `C:\msys64\mingw64\bin\verilator_bin.exe`:
+
+| Tree | Result |
+|------|--------|
+| `cmake-system` | PASS (withlimon PE under MSYS2 MinGW64) |
+| `cmake-conan` | `build_sim.ps1` EXIT 0; ctest 3/3 (`tinyriscv_fw_setup`, `sim_tinyriscv`, `sim-fail`). Conan **2.34.0**. |
+
+Firmware without RISC-V GCC is a **warning** (fallback `tests/isa/generated/rv32ui-p-add.bin`), not a fail. cmake-conan may also print non-fatal CMake-Conan “C compiler is not defined” (`project()` is `LANGUAGES CXX`). Evidence: [`cmake-system/WINDOWS_PASS_EVIDENCE.md`](cmake-system/WINDOWS_PASS_EVIDENCE.md), [`cmake-conan/WINDOWS_PASS_EVIDENCE.md`](cmake-conan/WINDOWS_PASS_EVIDENCE.md). Linux VM: [`cmake-system/PASS_EVIDENCE.md`](cmake-system/PASS_EVIDENCE.md).
 
 ## Layout
 

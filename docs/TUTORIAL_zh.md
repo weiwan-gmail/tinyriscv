@@ -260,7 +260,7 @@ python3 test_all_isa.py
 make -C sim/verilator sim
 ```
 
-可选 CMake 双树（**不改** 上面这条 Make；复用同一 TB）：[CMAKE.md](../CMAKE.md)。
+可选 CMake 双树（**不改** 上面这条 Make；复用同一 TB）：[CMAKE.md](../CMAKE.md)。Windows（PC2023，withlimon `verilator_bin.exe`）：[cmake-system/WINDOWS.md](../cmake-system/WINDOWS.md)。
 
 **PASS 长这样**（[logs/04-verilator-simple.txt](logs/04-verilator-simple.txt)）：
 

@@ -4,3 +4,4 @@
 - [TUTORIAL.md](TUTORIAL.md) — English summary
 - [logs/](logs/) — 真实 iverilog / Verilator `TEST_PASS` 输出
 - CMake dual-tree: [../CMAKE.md](../CMAKE.md)
+- Windows CMake (PC2023 PASS): [../cmake-system/WINDOWS.md](../cmake-system/WINDOWS.md)

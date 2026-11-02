@@ -68,7 +68,7 @@ make -C sim/verilator sim
 # expect: TEST_PASS  and  echo $?  ->  0
 ```
 
-Optional CMake (Make path unchanged): see [CMAKE.md](../CMAKE.md).
+Optional CMake (Make path unchanged): see [CMAKE.md](../CMAKE.md). Windows (PC2023, withlimon `verilator_bin.exe`): [cmake-system/WINDOWS.md](../cmake-system/WINDOWS.md).
 
 UART hello (`tests/example/uart_tx`; there is no `hello/` directory):
 

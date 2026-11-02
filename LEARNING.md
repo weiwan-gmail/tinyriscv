@@ -50,7 +50,7 @@ cmake --build build-system --target sim
 # expect TEST_PASS and exit 0, same as make -C sim/verilator sim
 ```
 
-If the RISC-V toolchain is missing, CMake still builds the Verilator model and smokes `tests/isa/generated/rv32ui-p-add.bin`. Windows (PC2023 / withlimon `verilator_bin.exe`) is a follow-up.
+If the RISC-V toolchain is missing, CMake still builds the Verilator model and smokes `tests/isa/generated/rv32ui-p-add.bin` (WARNING, still `TEST_PASS`). Windows PC2023 (withlimon `verilator_bin.exe` PE under MSYS2 MinGW64): both `cmake-system` and `cmake-conan` **PASS** on `develop` `4dd5b21` — [`cmake-system/WINDOWS.md`](cmake-system/WINDOWS.md).
 
 ### Hello-world UART (`tests/example/uart_tx`, no separate `hello/` tree)
 

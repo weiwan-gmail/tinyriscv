@@ -226,7 +226,7 @@ make -C sim/verilator sim
 
 Gitee 上游的 `verilator` 分支是另一套 SoC（OBI / 新 JTAG），不要和本目录的 `sim/verilator/Makefile` 混用。
 
-可选 CMake 双树（**不改** Make / iverilog / CPU RTL；复用 `sim/verilator/` TB）：[`CMAKE.md`](CMAKE.md)。Linux：`cmake -S cmake-system -B build-system && cmake --build build-system --target sim`，期望同样的 `TEST_PASS`。
+可选 CMake 双树（**不改** Make / iverilog / CPU RTL；复用 `sim/verilator/` TB）：[`CMAKE.md`](CMAKE.md)。Linux：`cmake -S cmake-system -B build-system && cmake --build build-system --target sim`，期望同样的 `TEST_PASS`。Windows (PC2023，withlimon `verilator_bin.exe` PE)：[`cmake-system/WINDOWS.md`](cmake-system/WINDOWS.md)（`cmake-system` / `cmake-conan` 均已在 `develop` `4dd5b21` PASS）。
 
 # 5.移植到FPGA
 

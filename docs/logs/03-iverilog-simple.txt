@@ -1,0 +1,15 @@
+===== iverilog simple =====
+iverilog -o out.vvp -I /workspace/rtl/core -D OUTPUT="signature.output" -D NO_WAVE /workspace/tb/tinyriscv_soc_tb.v /workspace/rtl/core/clint.v /workspace/rtl/core/csr_reg.v /workspace/rtl/core/ctrl.v /workspace/rtl/core/defines.v /workspace/rtl/core/div.v /workspace/rtl/core/ex.v /workspace/rtl/core/id.v /workspace/rtl/core/id_ex.v /workspace/rtl/core/if_id.v /workspace/rtl/core/pc_reg.v /workspace/rtl/core/regs.v /workspace/rtl/core/rib.v /workspace/rtl/core/tinyriscv.v /workspace/rtl/perips/ram.v /workspace/rtl/perips/rom.v /workspace/rtl/perips/timer.v /workspace/rtl/perips/uart.v /workspace/rtl/perips/gpio.v /workspace/rtl/perips/spi.v /workspace/rtl/debug/jtag_dm.v /workspace/rtl/debug/jtag_driver.v /workspace/rtl/debug/jtag_top.v /workspace/rtl/debug/uart_debug.v /workspace/rtl/soc/tinyriscv_soc_top.v /workspace/rtl/utils/full_handshake_rx.v /workspace/rtl/utils/full_handshake_tx.v /workspace/rtl/utils/gen_buf.v /workspace/rtl/utils/gen_dff.v
+test running...
+WARNING: /workspace/tb/tinyriscv_soc_tb.v:498: $readmemh(inst.data): Not enough words in the file for the requested range [0:4095].
+~~~~~~~~~~~~~~~~~~~ TEST_PASS ~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~ #####     ##     ####    #### ~~~~~~~~~
+~~~~~~~~~ #    #   #  #   #       #     ~~~~~~~~~
+~~~~~~~~~ #    #  #    #   ####    #### ~~~~~~~~~
+~~~~~~~~~ #####   ######       #       #~~~~~~~~~
+~~~~~~~~~ #       #    #  #    #  #    #~~~~~~~~~
+~~~~~~~~~ #       #    #   ####    #### ~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/workspace/tb/tinyriscv_soc_tb.v:486: $finish called at 57890000 (1ps)
+exit_code=0

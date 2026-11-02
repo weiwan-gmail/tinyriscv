@@ -486,9 +486,9 @@ module tinyriscv_soc_tb;
         $finish;
     end
 
-    // sim timeout
+    // sim timeout (5 ms @ 1 ns timescale: enough for simple + short UART)
     initial begin
-        #500000
+        #5000000
         $display("Time Out.");
         $finish;
     end
@@ -499,10 +499,13 @@ module tinyriscv_soc_tb;
     end
 
     // generate wave file, used by gtkwave
+    // compile_rtl.py defines NO_WAVE unless DUMP_WAVE=1
+`ifndef NO_WAVE
     initial begin
         $dumpfile("tinyriscv_soc_tb.vcd");
         $dumpvars(0, tinyriscv_soc_tb);
     end
+`endif
 
     tinyriscv_soc_top tinyriscv_soc_top_0(
         .clk(clk),

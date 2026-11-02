@@ -1,0 +1,23 @@
+===== verilator uart_tx (hello) =====
+make: Entering directory '/workspace/sim/verilator'
+make -C /workspace/tests/example/uart_tx/
+make[1]: Entering directory '/workspace/tests/example/uart_tx'
+make[1]: Nothing to be done for 'all'.
+make[1]: Leaving directory '/workspace/tests/example/uart_tx'
+python3 /workspace/tools/BinToMem_CLI.py /workspace/tests/example/uart_tx/uart_tx.bin inst.data
+./obj_dir/Vtb_verilator +max-cycles=2000000 +expect-uart=hello
+test running (Verilator, max_cycles=2000000)...
+hello world
+~~~~~~~~~~~~~~~~~~~ TEST_PASS ~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~ #####     ##     ####    #### ~~~~~~~~~
+~~~~~~~~~ #    #   #  #   #       #     ~~~~~~~~~
+~~~~~~~~~ #    #  #    #   ####    #### ~~~~~~~~~
+~~~~~~~~~ #####   ######       #       #~~~~~~~~~
+~~~~~~~~~ #       #    #  #    #  #    #~~~~~~~~~
+~~~~~~~~~ #       #    #   ####    #### ~~~~~~~~~
+cycles=49205 sim_time=1195480 ns
+UART_TX: hello world
+
+UART_EXPECT_PASS: found "hello"
+make: Leaving directory '/workspace/sim/verilator'
+exit_code=0

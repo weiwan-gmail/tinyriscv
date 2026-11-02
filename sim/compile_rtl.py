@@ -1,68 +1,65 @@
-import sys
-import filecmp
+#!/usr/bin/env python3
+"""Compile tinyriscv RTL + testbench with Icarus Verilog."""
+import os
 import subprocess
 import sys
-import os
 
 
-# 主函数
 def main():
-    rtl_dir = sys.argv[1]
+    raw = sys.argv[1] if len(sys.argv) > 1 else '..'
+    # compliance_test.py historically passes '../..' (from sim/compliance_test).
+    use_compliance = ('--compliance' in sys.argv) or (
+        os.path.normpath(raw) in ('../..', r'..\..')
+    )
+    rtl_dir = os.path.abspath(raw)
 
-    if rtl_dir != r'..':
-        tb_file = r'/tb/compliance_test/tinyriscv_soc_tb.v'
+    if use_compliance:
+        tb_file = os.path.join(rtl_dir, 'tb', 'compliance_test', 'tinyriscv_soc_tb.v')
     else:
-        tb_file = r'/tb/tinyriscv_soc_tb.v'
+        tb_file = os.path.join(rtl_dir, 'tb', 'tinyriscv_soc_tb.v')
 
-    # iverilog程序
-    iverilog_cmd = ['iverilog']
-    # 顶层模块
-    #iverilog_cmd += ['-s', r'tinyriscv_soc_tb']
-    # 编译生成文件
-    iverilog_cmd += ['-o', r'out.vvp']
-    # 头文件(defines.v)路径
-    iverilog_cmd += ['-I', rtl_dir + r'/rtl/core']
-    # 宏定义，仿真输出文件
+    iverilog_cmd = ['iverilog', '-o', 'out.vvp', '-I', os.path.join(rtl_dir, 'rtl', 'core')]
     iverilog_cmd += ['-D', r'OUTPUT="signature.output"']
-    # testbench文件
-    iverilog_cmd.append(rtl_dir + tb_file)
-    # ../rtl/core
-    iverilog_cmd.append(rtl_dir + r'/rtl/core/clint.v')
-    iverilog_cmd.append(rtl_dir + r'/rtl/core/csr_reg.v')
-    iverilog_cmd.append(rtl_dir + r'/rtl/core/ctrl.v')
-    iverilog_cmd.append(rtl_dir + r'/rtl/core/defines.v')
-    iverilog_cmd.append(rtl_dir + r'/rtl/core/div.v')
-    iverilog_cmd.append(rtl_dir + r'/rtl/core/ex.v')
-    iverilog_cmd.append(rtl_dir + r'/rtl/core/id.v')
-    iverilog_cmd.append(rtl_dir + r'/rtl/core/id_ex.v')
-    iverilog_cmd.append(rtl_dir + r'/rtl/core/if_id.v')
-    iverilog_cmd.append(rtl_dir + r'/rtl/core/pc_reg.v')
-    iverilog_cmd.append(rtl_dir + r'/rtl/core/regs.v')
-    iverilog_cmd.append(rtl_dir + r'/rtl/core/rib.v')
-    iverilog_cmd.append(rtl_dir + r'/rtl/core/tinyriscv.v')
-    # ../rtl/perips
-    iverilog_cmd.append(rtl_dir + r'/rtl/perips/ram.v')
-    iverilog_cmd.append(rtl_dir + r'/rtl/perips/rom.v')
-    iverilog_cmd.append(rtl_dir + r'/rtl/perips/timer.v')
-    iverilog_cmd.append(rtl_dir + r'/rtl/perips/uart.v')
-    iverilog_cmd.append(rtl_dir + r'/rtl/perips/gpio.v')
-    iverilog_cmd.append(rtl_dir + r'/rtl/perips/spi.v')
-    # ../rtl/debug
-    iverilog_cmd.append(rtl_dir + r'/rtl/debug/jtag_dm.v')
-    iverilog_cmd.append(rtl_dir + r'/rtl/debug/jtag_driver.v')
-    iverilog_cmd.append(rtl_dir + r'/rtl/debug/jtag_top.v')
-    iverilog_cmd.append(rtl_dir + r'/rtl/debug/uart_debug.v')
-    # ../rtl/soc
-    iverilog_cmd.append(rtl_dir + r'/rtl/soc/tinyriscv_soc_top.v')
-    # ../rtl/utils
-    iverilog_cmd.append(rtl_dir + r'/rtl/utils/full_handshake_rx.v')
-    iverilog_cmd.append(rtl_dir + r'/rtl/utils/full_handshake_tx.v')
-    iverilog_cmd.append(rtl_dir + r'/rtl/utils/gen_buf.v')
-    iverilog_cmd.append(rtl_dir + r'/rtl/utils/gen_dff.v')
+    # nowave scripts skip VCD by default; set DUMP_WAVE=1 to keep gtkwave dumps.
+    if os.environ.get('DUMP_WAVE', '0') != '1':
+        iverilog_cmd += ['-D', 'NO_WAVE']
+    iverilog_cmd.append(tb_file)
 
-    # 编译
-    process = subprocess.Popen(iverilog_cmd)
-    process.wait(timeout=5)
+    rel_sources = [
+        'rtl/core/clint.v',
+        'rtl/core/csr_reg.v',
+        'rtl/core/ctrl.v',
+        'rtl/core/defines.v',
+        'rtl/core/div.v',
+        'rtl/core/ex.v',
+        'rtl/core/id.v',
+        'rtl/core/id_ex.v',
+        'rtl/core/if_id.v',
+        'rtl/core/pc_reg.v',
+        'rtl/core/regs.v',
+        'rtl/core/rib.v',
+        'rtl/core/tinyriscv.v',
+        'rtl/perips/ram.v',
+        'rtl/perips/rom.v',
+        'rtl/perips/timer.v',
+        'rtl/perips/uart.v',
+        'rtl/perips/gpio.v',
+        'rtl/perips/spi.v',
+        'rtl/debug/jtag_dm.v',
+        'rtl/debug/jtag_driver.v',
+        'rtl/debug/jtag_top.v',
+        'rtl/debug/uart_debug.v',
+        'rtl/soc/tinyriscv_soc_top.v',
+        'rtl/utils/full_handshake_rx.v',
+        'rtl/utils/full_handshake_tx.v',
+        'rtl/utils/gen_buf.v',
+        'rtl/utils/gen_dff.v',
+    ]
+    iverilog_cmd.extend(os.path.join(rtl_dir, p) for p in rel_sources)
+
+    print(' '.join(iverilog_cmd), flush=True)
+    subprocess.run(iverilog_cmd, check=True)
+
 
 if __name__ == '__main__':
     sys.exit(main())

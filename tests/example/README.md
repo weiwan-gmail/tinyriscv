@@ -15,3 +15,5 @@
 **uart_tx**: 串口发送测试例程，向串口发送hello world字符串。
 
 本目录下所有的.c和.S文件是所有例程的公共文件，每一个例程都需要用到它们。
+
+交叉编译工具链通过 `common.mk` 里的 **`TOOLCHAIN_PREFIX`** 选择（可自动探测 `riscv64-unknown-elf-` 等）。仿真与 Verilator 步骤见仓库根目录 [LEARNING.md](../../LEARNING.md)。

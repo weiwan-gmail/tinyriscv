@@ -134,7 +134,14 @@ make install
 可以从百度网盘下载(链接：https://pan.baidu.com/s/10uLZYf_cgtH94kZI_N6JhQ 
 提取码：uk0w)或者自行下载其他版本的，下载后解压到tools目录下。
 
-最后，需要确认tests/example/common.mk文件里的这几行内容要与你安装的工具链对应得上。
+交叉编译前缀用环境变量或 Make 变量 **`TOOLCHAIN_PREFIX`**（注意末尾的 `-`），例如：
+
+```bash
+sudo apt-get install gcc-riscv64-unknown-elf
+make -C tests/example/simple TOOLCHAIN_PREFIX=riscv64-unknown-elf-
+```
+
+`tests/example/common.mk` 会在 PATH 上自动寻找 `riscv64-unknown-elf-` / `riscv-none-elf-`（xpack）/ `riscv-none-embed-`，并在需要时给 `rv32im` 加上 `_zicsr`。不必再使用百度网盘里的旧 Windows 路径。详细说明见 [LEARNING.md](LEARNING.md) 与 [docs/TUTORIAL_zh.md](docs/TUTORIAL_zh.md)。
 
 ![toolchain](./pic/toolchain.png)
 
@@ -189,6 +196,33 @@ C语言程序例程位于tests\example目录里。
 编译成功之后，进入到sim目录，执行以下命令开始测试：
 
 ` python .\sim_new_nowave.py ..\tests\example\simple\simple.bin inst.data`
+
+Linux 下请用 `python3`，例如：
+
+```bash
+python3 sim_new_nowave.py ../tests/example/simple/simple.bin inst.data
+```
+
+成功时打印 `TEST_PASS`。
+
+## 4.5 Verilator 仿真与学习教程
+
+本 fork 在 **不改 CPU RTL** 的前提下增加了 Verilator C++ testbench（`sim/verilator/`），与 iverilog 使用同一份 `simple.bin` / `inst.data`。
+
+学习入口（中文主教程 + 英文摘要 + 真实仿真 log）：
+
+- [LEARNING.md](LEARNING.md) — 可复制的 make / python3 命令
+- [docs/TUTORIAL_zh.md](docs/TUTORIAL_zh.md) — 中文详细教程（推荐）
+- [docs/TUTORIAL.md](docs/TUTORIAL.md) — English summary
+- [docs/logs/](docs/logs/) — 本环境实测的 PASS 输出
+
+```bash
+make -C tests/example/simple
+python3 sim/sim_new_nowave.py tests/example/simple/simple.bin inst.data
+make -C sim/verilator sim
+```
+
+Gitee 上游的 `verilator` 分支是另一套 SoC（OBI / 新 JTAG），不要和本目录的 `sim/verilator/Makefile` 混用。
 
 # 5.移植到FPGA
 

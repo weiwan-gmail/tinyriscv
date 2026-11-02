@@ -1,0 +1,53 @@
+===== toolchain-info =====
+make: Entering directory '/workspace/tests/example/simple'
+TOOLCHAIN_PREFIX=riscv64-unknown-elf-
+RISCV_GCC=/usr/bin/riscv64-unknown-elf-gcc
+RISCV_ARCH=rv32im_zicsr
+riscv64-unknown-elf-gcc (13.2.0-11ubuntu1+12) 13.2.0
+make: Leaving directory '/workspace/tests/example/simple'
+
+===== make simple =====
+make: Entering directory '/workspace/tests/example/simple'
+rm -f simple ../start.o ../trap_entry.o main.o ../init.o ../trap_handler.o ../lib/utils.o ../lib/xprintf.o ../lib/uart.o ../lib/flash_n25q.o ../lib/spi.o simple.dump simple.bin
+make: Leaving directory '/workspace/tests/example/simple'
+make: Entering directory '/workspace/tests/example/simple'
+riscv64-unknown-elf-gcc -DSIMULATION -march=rv32im_zicsr -mabi=ilp32 -mcmodel=medlow -ffunction-sections -fdata-sections -fno-builtin-printf -fno-builtin-malloc -I.. -c -o ../start.o ../start.S
+riscv64-unknown-elf-gcc -DSIMULATION -march=rv32im_zicsr -mabi=ilp32 -mcmodel=medlow -ffunction-sections -fdata-sections -fno-builtin-printf -fno-builtin-malloc -I.. -c -o ../trap_entry.o ../trap_entry.S
+riscv64-unknown-elf-gcc -DSIMULATION -march=rv32im_zicsr -mabi=ilp32 -mcmodel=medlow -ffunction-sections -fdata-sections -fno-builtin-printf -fno-builtin-malloc -I.. -c -o main.o main.c
+riscv64-unknown-elf-gcc -DSIMULATION -march=rv32im_zicsr -mabi=ilp32 -mcmodel=medlow -ffunction-sections -fdata-sections -fno-builtin-printf -fno-builtin-malloc -I.. -c -o ../init.o ../init.c
+riscv64-unknown-elf-gcc -DSIMULATION -march=rv32im_zicsr -mabi=ilp32 -mcmodel=medlow -ffunction-sections -fdata-sections -fno-builtin-printf -fno-builtin-malloc -I.. -c -o ../trap_handler.o ../trap_handler.c
+riscv64-unknown-elf-gcc -DSIMULATION -march=rv32im_zicsr -mabi=ilp32 -mcmodel=medlow -ffunction-sections -fdata-sections -fno-builtin-printf -fno-builtin-malloc -I.. -c -o ../lib/utils.o ../lib/utils.c
+riscv64-unknown-elf-gcc -DSIMULATION -march=rv32im_zicsr -mabi=ilp32 -mcmodel=medlow -ffunction-sections -fdata-sections -fno-builtin-printf -fno-builtin-malloc -I.. -c -o ../lib/xprintf.o ../lib/xprintf.c
+riscv64-unknown-elf-gcc -DSIMULATION -march=rv32im_zicsr -mabi=ilp32 -mcmodel=medlow -ffunction-sections -fdata-sections -fno-builtin-printf -fno-builtin-malloc -I.. -c -o ../lib/uart.o ../lib/uart.c
+riscv64-unknown-elf-gcc -DSIMULATION -march=rv32im_zicsr -mabi=ilp32 -mcmodel=medlow -ffunction-sections -fdata-sections -fno-builtin-printf -fno-builtin-malloc -I.. -c -o ../lib/flash_n25q.o ../lib/flash_n25q.c
+riscv64-unknown-elf-gcc -DSIMULATION -march=rv32im_zicsr -mabi=ilp32 -mcmodel=medlow -ffunction-sections -fdata-sections -fno-builtin-printf -fno-builtin-malloc -I.. -c -o ../lib/spi.o ../lib/spi.c
+Using TOOLCHAIN_PREFIX=riscv64-unknown-elf- RISCV_ARCH=rv32im_zicsr
+riscv64-unknown-elf-gcc -DSIMULATION -march=rv32im_zicsr -mabi=ilp32 -mcmodel=medlow -ffunction-sections -fdata-sections -fno-builtin-printf -fno-builtin-malloc -I.. ../start.o ../trap_entry.o main.o ../init.o ../trap_handler.o ../lib/utils.o ../lib/xprintf.o ../lib/uart.o ../lib/flash_n25q.o ../lib/spi.o -o simple -T ../link.lds -nostdlib -Wl,--gc-sections -Wl,--check-sections
+riscv64-unknown-elf-objcopy -O binary simple simple.bin
+riscv64-unknown-elf-objdump --disassemble-all simple > simple.dump
+make: Leaving directory '/workspace/tests/example/simple'
+
+===== artifacts =====
+-rwxr-xr-x 1 ubuntu ubuntu 9848 Nov  1 17:20 /workspace/tests/example/simple/simple
+-rwxr-xr-x 1 ubuntu ubuntu  704 Nov  1 17:20 /workspace/tests/example/simple/simple.bin
+-rw-r--r-- 1 ubuntu ubuntu 9395 Nov  1 17:20 /workspace/tests/example/simple/simple.dump
+/workspace/tests/example/simple/simple: ELF 32-bit LSB executable, UCB RISC-V, soft-float ABI, version 1 (SYSV), statically linked, not stripped
+704 /workspace/tests/example/simple/simple.bin
+
+===== dump _start =====
+00000000 <_start>:
+   0:	10001197          	auipc	gp,0x10001
+   4:	80018193          	addi	gp,gp,-2048 # 10000800 <__global_pointer$>
+   8:	10004117          	auipc	sp,0x10004
+   c:	ff810113          	addi	sp,sp,-8 # 10004000 <__freertos_irq_stack_top>
+  10:	00000d13          	li	s10,0
+  14:	00000d93          	li	s11,0
+  18:	2b800513          	li	a0,696
+  1c:	10000597          	auipc	a1,0x10000
+  20:	fe458593          	addi	a1,a1,-28 # 10000000 <mul>
+  24:	80818613          	addi	a2,gp,-2040 # 10000008 <__bss_start>
+  28:	00c5fc63          	bgeu	a1,a2,40 <_start+0x40>
+  2c:	00052283          	lw	t0,0(a0)
+  30:	0055a023          	sw	t0,0(a1)
+  34:	00450513          	addi	a0,a0,4
+  38:	00458593          	addi	a1,a1,4

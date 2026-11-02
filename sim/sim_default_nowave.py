@@ -1,27 +1,25 @@
-import sys
-import filecmp
+#!/usr/bin/env python3
+"""Run iverilog/vvp against an already generated inst.data file in sim/."""
+import os
 import subprocess
 import sys
-import os
 
 
-# 主函数
 def main():
-    #print(sys.argv[0] + ' ' + sys.argv[1] + ' ' + sys.argv[2])
+    here = os.path.dirname(os.path.abspath(__file__))
+    repo = os.path.abspath(os.path.join(here, '..'))
+    py = sys.executable
+    compile_rtl = os.path.join(here, 'compile_rtl.py')
+    os.chdir(here)
+    subprocess.run([py, compile_rtl, repo], check=True)
 
-    # 1.编译rtl文件
-    cmd = r'python compile_rtl.py' + r' ..'
-    f = os.popen(cmd)
-    f.close()
-
-    # 2.运行
-    vvp_cmd = [r'vvp']
-    vvp_cmd.append(r'out.vvp')
-    process = subprocess.Popen(vvp_cmd)
+    timeout_s = float(os.environ.get('VVP_TIMEOUT', '30'))
     try:
-        process.wait(timeout=10)
+        result = subprocess.run(['vvp', 'out.vvp'], timeout=timeout_s)
     except subprocess.TimeoutExpired:
         print('!!!Fail, vvp exec timeout!!!')
+        return 1
+    return result.returncode
 
 
 if __name__ == '__main__':

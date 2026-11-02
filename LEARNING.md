@@ -42,6 +42,16 @@ python3 sim/sim_new_nowave.py tests/example/simple/simple.bin inst.data
 make -C sim/verilator sim
 ```
 
+Optional CMake dual-tree (same TB, Make path unchanged): [`CMAKE.md`](CMAKE.md).
+
+```bash
+cmake -S cmake-system -B build-system -DCMAKE_BUILD_TYPE=Release
+cmake --build build-system --target sim
+# expect TEST_PASS and exit 0, same as make -C sim/verilator sim
+```
+
+If the RISC-V toolchain is missing, CMake still builds the Verilator model and smokes `tests/isa/generated/rv32ui-p-add.bin`. Windows (PC2023 / withlimon `verilator_bin.exe`) is a follow-up.
+
 ### Hello-world UART (`tests/example/uart_tx`, no separate `hello/` tree)
 
 ```bash

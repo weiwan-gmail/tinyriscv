@@ -12,3 +12,15 @@ sim/verilator/obj_dir/
 sim/verilator/inst.data
 sim/verilator/*.vcd
 sim/verilator/*.log
+
+# CMake dual-tree build dirs (cmake-system / cmake-conan)
+/build-system/
+/build-conan/
+cmake-system/build/
+cmake-conan/build/
+CMakeUserPresets.json
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+CTestTestfile.cmake
+Testing/

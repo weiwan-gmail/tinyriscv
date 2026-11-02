@@ -20,6 +20,7 @@ This repository is `weiwan-gmail/tinyriscv` (fork of `liangkangnan/tinyriscv`). 
 | `tb/tinyriscv_soc_tb.v` | iverilog testbench (`$readmemh("inst.data", ...)`) |
 | `sim/` | Python + iverilog flow |
 | `sim/verilator/` | C++ harness (`tb_verilator.v` + `tb_verilator.cpp`) |
+| `cmake-system/` / `cmake-conan/` | Optional CMake dual-tree wrapping the same TB ([CMAKE.md](../CMAKE.md)) |
 | `tests/example/` | C examples (`simple`, `uart_tx`, …) |
 | `tests/isa/` | older ISA `.bin` tests |
 | `tools/BinToMem_CLI.py` | little-endian `.bin` → hex `inst.data` |
@@ -66,6 +67,8 @@ python3 sim/sim_new_nowave.py tests/example/simple/simple.bin inst.data
 make -C sim/verilator sim
 # expect: TEST_PASS  and  echo $?  ->  0
 ```
+
+Optional CMake (Make path unchanged): see [CMAKE.md](../CMAKE.md).
 
 UART hello (`tests/example/uart_tx`; there is no `hello/` directory):
 

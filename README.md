@@ -40,6 +40,8 @@
 
 **fpga**：存放FPGA相关文件，比如约束文件；
 
+**cmake-system** / **cmake-conan** / **cmake**：可选 CMake 双树（系统 Verilator 或 Conan 2 本地 recipe），复用 `sim/verilator/` TB，不改 CPU RTL。说明见 [CMAKE.md](CMAKE.md)。
+
 tinyriscv的整体框架如下：
 
 ![tinyriscv整体框架](./pic/arch.jpg)
@@ -223,6 +225,8 @@ make -C sim/verilator sim
 ```
 
 Gitee 上游的 `verilator` 分支是另一套 SoC（OBI / 新 JTAG），不要和本目录的 `sim/verilator/Makefile` 混用。
+
+可选 CMake 双树（**不改** Make / iverilog / CPU RTL；复用 `sim/verilator/` TB）：[`CMAKE.md`](CMAKE.md)。Linux：`cmake -S cmake-system -B build-system && cmake --build build-system --target sim`，期望同样的 `TEST_PASS`。
 
 # 5.移植到FPGA
 
